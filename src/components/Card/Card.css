@@ -1,0 +1,13 @@
+.card-container {
+	width: 19rem; 
+	text-align: center;
+}
+
+.card-img {
+	height: 280px;
+	object-fit: cover; 
+}
+
+.card-description {
+	margin-top: 0.8rem;
+}
