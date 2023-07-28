@@ -8,8 +8,8 @@ import { AppContext } from "./store/AppContext";
 const initialState = {
   type: null,
   mode: null,
-  shoppingCart: [],
-  activeProduct: null
+  cart: [],
+  activeProduct: []
 }
 
 function App() {

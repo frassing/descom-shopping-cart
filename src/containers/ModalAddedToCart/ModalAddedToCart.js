@@ -12,7 +12,7 @@ export const ModalAddedToCart = ({ open }) => {
 	return (
 		<Modal
 			title={'Adicionado ao carrinho'}
-			open={open}
+			open={state.mode === true}
 			onHide={handleClose}
 			controls={[
 				{

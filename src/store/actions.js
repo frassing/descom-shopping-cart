@@ -7,27 +7,39 @@ const sleep = (time) => (
 	})
 );
 
-export const openModalAddedToCartAction = () => ({
-	type: types.openModalAddedToCartType,
+export const getActiveItemAction = (activeProd) => ({
+	type: types.getActiveProductType,
+	payload: activeProd
 });
 
 export const closeModalAction = () => ({
 	type: types.closeModalType
 });
 
-export const addToCartInitAction = async () => ({
-	type: types.addToCartInitType
+export const addToCartStartAction = () => ({
+	type: types.addToCartStartType
 });
 
-export const addToCartSuccessAction = async (shoppingCart) => ({
-	type: types.addToCartSuccessType,
-	payload: shoppingCart
+export const addToCartCompleteOpenModalAction = (prod) => ({
+	type: types.addToCartDoneOpenModalType,
+	payload: prod
 });
 
-export const addToCartAction = async (dispatch, product) => {
-	dispatch(addToCartInitAction());
+export const addToCartProcessAction = async (dispatch, product) => {
+	dispatch(addToCartStartAction());
 	await sleep(1000);
 	const cartItem = await itemService.saveItemInCart(product);
-	dispatch(addToCartSuccessAction(cartItem));
-	dispatch(openModalAddedToCartAction());
+	// dispatch(fetchCartProcessAction(dispatch));
+	dispatch(getActiveItemAction(cartItem));
+	dispatch(addToCartCompleteOpenModalAction(cartItem));
 };
+
+export const fetchCartProcessAction = async (dispatch) => {
+	const carrinho = await itemService.getCartItems();
+	dispatch(fetchCartDoneAction(carrinho));
+} 
+
+export const fetchCartDoneAction = (cart) => ({
+	type: types.fetchCartType,
+	payload: cart
+})

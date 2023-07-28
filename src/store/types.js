@@ -1,7 +1,9 @@
-export const openModalAddedToCartType = 'open modal added to cart';
+export const addToCartStartType = 'start add to cart';
 
-export const closeModalType = 'close modal';
+export const addToCartDoneOpenModalType = 'add to cart done open modal';
 
-export const addToCartInitType = 'add to cart init';
-export const addToCartSuccessType = 'add to cart success';
-export const addToCartType = 'add to cart';
+export const getActiveProductType = 'get active product'
+
+export const closeModalType = 'close modal'
+
+export const fetchCartType = 'fetch cart'

@@ -1,15 +1,17 @@
+
 import { Card } from "../../components/Card/Card";
 import { useAppContext } from "../../store/AppContext";
-import { addToCartAction } from "../../store/actions";
-import { addToCartInitType } from "../../store/types";
+import { addToCartProcessAction } from "../../store/actions";
+import { addToCartStartType } from "../../store/types";
+
 
 
 export const ProductCard = ({ product }) => {
 	const { state, dispatch } = useAppContext();
 	const handleClick = () => {
-		addToCartAction(dispatch, product);
+		addToCartProcessAction(dispatch, product);
 	}
-
+	
 	return (
 		<Card
 			product={product}
@@ -18,12 +20,11 @@ export const ProductCard = ({ product }) => {
 					label: 'Adicionar ao Carrinho',
 					variant: 'dark',
 					loadingLabel: 'Adicionando',
-					loading: state.type === addToCartInitType,
+					loading: state.type === addToCartStartType,
 					disabled: false,
 					onClick: handleClick
 				}
 			]}
-			onClick={handleClick}
 		>
 		</Card>
 	);

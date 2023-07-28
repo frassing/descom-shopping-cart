@@ -1,4 +1,4 @@
-const productItems = [
+export const productList = [
     {
         id: 1,
         name: "Kit The Ordinary",
@@ -42,5 +42,3 @@ const productItems = [
         image: "https://images.unsplash.com/photo-1656147962013-433749c7dc60?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1370&q=80"
     }
 ];
-
-export default productItems;
