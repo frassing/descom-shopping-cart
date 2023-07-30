@@ -1,7 +1,6 @@
 import * as types from './types'
 
 export function reducer(state, action) {
-	console.log(state)
 	switch (action.type) {
 		case types.closeModalType:
 			return {
@@ -21,20 +20,28 @@ export function reducer(state, action) {
 				mode: true,
 				cart: [
 					...state.cart,
-					action.payload,
+					action.payload
 				]
 			}
 		case types.getActiveProductType:
 			return {
 				...state,
 				type: types.getActiveProductType,
-				activeProduct: action.payload
+				activeProduct: 
+					action.payload
+				
 			}
 		case types.fetchCartType:
 			return {
 				...state,
 				type: types.fetchCartType,
 				cart: action.payload
+			}
+		case types.fetchProductsDataSuccessType:
+			return {
+				...state,
+				type: types.fetchProductsDataSuccessType,
+				products: action.payload
 			}
 		default:
 			return {

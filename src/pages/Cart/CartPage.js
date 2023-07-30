@@ -1,55 +1,95 @@
-import { Container } from "react-bootstrap";
-import ListGroup from 'react-bootstrap/ListGroup';
+import { Container, Table } from "react-bootstrap";
 import Image from 'react-bootstrap/Image';
 import { Button } from "../../components/Button/Button";
+import { Title } from "../../components/Title/Title";
 import { useAppContext } from "../../store/AppContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchCartProcessAction } from "../../store/actions";
 
 export const CartPage = () => {
 	const { state, dispatch } = useAppContext();
+	const [quantity, setQuantity] = useState(1);
+	const [total, setTotal] = useState(0);
+	const [subtotal, setSubTotal] = useState(0);
 
 	useEffect(() => {
 		fetchCartProcessAction(dispatch);
-	}, []);
+	}, [state.type])
+
+	const handleIncrement = (prodId, prodPrice) => {
+		setQuantity((prevQuantity) => prevQuantity + 1);
+		const price = prodPrice;
+		updateTotal(price);
+	}
+
+	const handleDecrement = (prodId, prodPrice) => {
+		quantity != 0 ? setQuantity((prevQuantity) => prevQuantity - 1) : setQuantity(0);
+		const price = prodPrice;
+		updateTotal(price);
+	}
+
+	const updateTotal = (prodPrice) => {
+		setTotal(() => (prodPrice * quantity).toFixed(2));
+	}
+
+	const updateSubTotal = () => {
+		setSubTotal(() => subtotal);
+	}
+
+	useEffect(() => {
+		updateSubTotal();
+	}, [quantity]);
 
 	return (
 		<Container>
-			<h1>Carrinho</h1>
-			<ListGroup>
-				{state.cart.map((prod, prodIndex) => (
-					<ListGroup.Item as="li" key={prodIndex} className='d-flex flex-direction-column justify-content-between align-items-start text-center'>
-						<Image className="prod_img ms-1 me-1" src={prod.image} rounded style={{ height: '10rem', objectFit: 'cover', width: '10rem' }} />
-							
-						<span className="fw-bold ms-auto me-auto">{prod.name}</span>
-
-						<div className='qtd_btn_prod ms-auto me-auto d-flex-column justify-content-center'>
-							<p className="fw-bold">Quantidade</p>
-							<span className="qtd_value">0</span>
-
-							<div className="buttons pe-1">
+			<Title title='Carrinho' />
+			{state.cart.length === 0 ? (
+				<div className="text-center">Não existem produtos no carrinho.</div>
+			) : (<span className="fw-bold">Produto(s) no carrinho: {state.cart.length}</span>)}
+			<Table hover responsive="md" className="align-middle">
+				<thead>
+					<tr>
+						<th>Produto</th>
+						<th>Preço</th>
+						<th>Quantidade</th>
+						<th>Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					{state.cart.map((prod, prodIndex) => (
+						<tr key={prodIndex} id={prod.id} >
+							<td>
+								<Image className="prod_img ms-1" src={prod.image} rounded style={{ height: '8rem', objectFit: 'cover', width: '8rem' }} />
+								<span className="ms-1 ps-4">{prod.name}</span>
+							</td>
+							<td className="product_price fw-bold">
+								R$ <span>{prod.price}</span>
+							</td>
+							<td>
+								<span className='minus'>
+									<Button variant={'dark'} label={'-'} onClick={() => handleDecrement(prod.id, prod.price)} />
+								</span>
+								<span className="qtd_value ms-3 me-3">{quantity}</span>
 								<span className='plus'>
-									<Button variant={'dark'} label={'+'} className="btn_increment" />
+									<Button variant={'dark'} label={'+'} onClick={() => handleIncrement(prod.id, prod.price)} />
 								</span>
-								<span className='minus ps-1'>
-									<Button variant={'dark'} label={'-'} className="btn_decrement" />
-								</span>
-							</div>
-						</div>
 
-						<div className='valor_unt ms-auto me-auto'>
-							<p className="fw-bold">Valor Unitário</p>
-							<span className="product_price">{prod.price}</span>
-						</div>
+							</td>
+							<td className="total_value fw-bold">
+								R$ <span>{total}</span>
+							</td>
+						</tr>
+					))}
+				</tbody>
+				<tfoot >
+					<tr>
+						<th colSpan={2}>Subtotal</th>
+						<th>R$</th>
+						<th id="subTotalCompra">{subtotal}</th>
+					</tr>
 
-						<div className='subtotal_prod ms-auto me-auto'>
-							<p className="fw-bold">Subtotal</p>
-							<span className="subtotal_value">subtotal</span>
-						</div>
-					</ListGroup.Item>
-				))}
-			</ListGroup>
-
+				</tfoot>
+			</Table>
 		</Container>
 	);
 }

@@ -1,28 +1,41 @@
-
+import { useState, useEffect } from "react";
 import { Card } from "../../components/Card/Card";
 import { useAppContext } from "../../store/AppContext";
-import { addToCartProcessAction } from "../../store/actions";
-import { addToCartStartType } from "../../store/types";
-
-
+import { addToCartProcessAction, fetchCartProcessAction } from "../../store/actions";
 
 export const ProductCard = ({ product }) => {
 	const { state, dispatch } = useAppContext();
-	const handleClick = () => {
-		addToCartProcessAction(dispatch, product);
-	}
+	const [itemsLoading, setItemsLoading] = useState({});
 	
+	const handleClick = async (prodId) => {
+		setItemsLoading({
+			...itemsLoading,
+			[prodId] : true
+		})
+		await addToCartProcessAction(dispatch, product);
+		setItemsLoading({
+			...itemsLoading,
+			[prodId] : false, 
+		})
+	}
+
+	const isSaved = (state.cart.find(itemInCart => itemInCart.id === product.id)) != undefined ? true : false;
+
+	useEffect(() => {
+		fetchCartProcessAction(dispatch)
+	}, [])
+
 	return (
 		<Card
-			product={product}
+			product= {product}
 			controls={[
 				{
-					label: 'Adicionar ao Carrinho',
+					label: !(isSaved) ? 'Adicionar ao Carrinho': 'Adicionado ao Carrinho',
 					variant: 'dark',
 					loadingLabel: 'Adicionando',
-					loading: state.type === addToCartStartType,
-					disabled: false,
-					onClick: handleClick
+					loading: itemsLoading[product.id],
+					disabled: isSaved,
+					onClick: () => handleClick(product.id)
 				}
 			]}
 		>

@@ -1,0 +1,52 @@
+.footer {
+	background-color: #303030;
+	color: #e2dfdf;
+	font-size: 0.80rem;
+	padding: 2rem .5rem 0.3rem;
+	overflow: hidden;
+}
+
+.footer-title {
+	font-size: 1rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05rem;
+}
+
+.about-text {
+	width: 34ch;
+	margin: .3rem auto 0;
+}
+
+.footer-list {
+	list-style: none;
+	padding: 0;
+}
+
+.footer-list li {
+	padding: 0.1rem 0;
+}
+
+.footer-list li a {
+	color: #a3a3a3;
+}
+
+.about-me {
+	display: flex;
+	flex-direction: row;
+	gap: .7rem;
+	justify-content: center;
+	margin-top: 1rem;
+	font-size: .9rem;
+}
+
+.cta-me {
+	outline: solid 1px;
+	border-radius: 3px;
+	padding: 0.3rem;
+	text-decoration: none;
+}
+
+.cta-me:hover {
+	color: #303030;
+	background-color: #e2dfdf;
+}

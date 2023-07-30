@@ -1,0 +1,12 @@
+.prod_details {
+	display: flex; 
+	flex-direction: column;
+	align-items: center;
+}
+
+.prod_detail_img {
+	width: 11rem; 
+	height: 11rem; 
+	object-fit: cover;
+}
+
